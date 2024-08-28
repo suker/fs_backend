@@ -33,6 +33,15 @@ app.get('/api/persons', (request, response) => {
 	return response.json(persons);
 });
 
+app.get('/api/persons/:id', (request, response) => {
+    const id = request.params.id
+    const person = persons.find(person => person.id === id)
+
+    if (!person) return response.status(404).end(`Resource with id ${id} not found`)
+
+    return response.json(person)
+})
+
 app.get('/info', (request, response) => {
 	const persons_info = `<div>Phonebook has info for ${persons.length} people</div><br/>`;
     const time_str = new Date().toString()
