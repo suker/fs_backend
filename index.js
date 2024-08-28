@@ -2,7 +2,7 @@ const PORT = 3001;
 const express = require('express');
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
 let persons = [
 	{
@@ -36,49 +36,60 @@ app.get('/api/persons', (request, response) => {
 });
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    const person = persons.find(person => person.id === id)
+	const id = request.params.id;
+	const person = persons.find((person) => person.id === id);
 
-    if (!person) return response.status(404).end(`Resource with id ${id} not found`)
+	if (!person)
+		return response.status(404).end(`Resource with id ${id} not found`);
 
-    response.json(person)
-})
-
+	response.json(person);
+});
 
 const generateId = () => {
-	const maxId = persons.length > 0
-	  ? Math.max(...persons.map(person => Number(person.id)))
-	  : 0
-	return String(maxId + 1)
-  }
+	const maxId =
+		persons.length > 0
+			? Math.max(...persons.map((person) => Number(person.id)))
+			: 0;
+	return String(maxId + 1);
+};
 
-app.post('/api/persons', (request, response)=> {
-    const body = request.body
+app.post('/api/persons', (request, response) => {
+	const body = request.body;
 
-    const person = {
-        id: generateId(),
-        name: body.name,
-        number: body.number
-    }
+	if (!body.name || !body.number) {
+		return response.status(400).json({ error: 'content missing' });
+	}
 
-    persons = persons.concat(person)
-    response.json(person)
-})
+	const repeatedPerson = persons.find(
+		(person) => person.name.toLowerCase() === body.name.toLowerCase()
+	);
 
-app.delete('/api/persons/:id', (request, response)=> {
-    const id = request.params.id
-    persons = persons.filter(person => person.id === id)
-    response.status(204).send()
-})
+	if (repeatedPerson)
+		return response.status(400).json({ error: 'name must be unique' });
+
+	const person = {
+		id: generateId(),
+		name: body.name,
+		number: body.number,
+	};
+
+	persons = persons.concat(person);
+	response.json(person);
+});
+
+app.delete('/api/persons/:id', (request, response) => {
+	const id = request.params.id;
+	persons = persons.filter((person) => person.id === id);
+	response.status(204).send();
+});
 
 app.get('/info', (request, response) => {
 	const persons_info = `<div>Phonebook has info for ${persons.length} people</div><br/>`;
-    const time_str = new Date().toString()
+	const time_str = new Date().toString();
 	const request_time = `<div>${time_str}</div>`;
-    const result = persons_info + request_time
+	const result = persons_info + request_time;
 
 	response.send(result);
 });
 
 app.listen(PORT);
-
