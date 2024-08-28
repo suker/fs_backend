@@ -1,6 +1,8 @@
 const PORT = 3001;
-let express = require('express');
-let app = express();
+const express = require('express');
+const app = express();
+
+app.use(express.json())
 
 let persons = [
 	{
@@ -42,6 +44,27 @@ app.get('/api/persons/:id', (request, response) => {
     response.json(person)
 })
 
+
+const generateId = () => {
+	const maxId = persons.length > 0
+	  ? Math.max(...persons.map(person => Number(person.id)))
+	  : 0
+	return String(maxId + 1)
+  }
+
+app.post('/api/persons', (request, response)=> {
+    const body = request.body
+
+    const person = {
+        id: generateId(),
+        name: body.name,
+        number: body.number
+    }
+
+    persons = persons.concat(person)
+    response.json(person)
+})
+
 app.delete('/api/persons/:id', (request, response)=> {
     const id = request.params.id
     persons = persons.filter(person => person.id === id)
@@ -58,3 +81,4 @@ app.get('/info', (request, response) => {
 });
 
 app.listen(PORT);
+
