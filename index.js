@@ -2,7 +2,7 @@ const PORT = 3001;
 let express = require('express');
 let app = express();
 
-const persons = [
+let persons = [
 	{
 		id: '1',
 		name: 'Arto Hellas',
@@ -39,7 +39,13 @@ app.get('/api/persons/:id', (request, response) => {
 
     if (!person) return response.status(404).end(`Resource with id ${id} not found`)
 
-    return response.json(person)
+    response.json(person)
+})
+
+app.delete('/api/persons/:id', (request, response)=> {
+    const id = request.params.id
+    persons = persons.filter(person => person.id === id)
+    response.status(204).send()
 })
 
 app.get('/info', (request, response) => {
