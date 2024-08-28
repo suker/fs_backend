@@ -30,7 +30,16 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/persons', (request, response) => {
-    return response.json(persons)
-})
+	return response.json(persons);
+});
+
+app.get('/info', (request, response) => {
+	const persons_info = `<div>Phonebook has info for ${persons.length} people</div><br/>`;
+    const time_str = new Date().toString()
+	const request_time = `<div>${time_str}</div>`;
+    const result = persons_info + request_time
+
+	response.send(result);
+});
 
 app.listen(PORT);
