@@ -1,9 +1,12 @@
 const express = require('express');
 const morgan = require('morgan')
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001
 console.log(`Server Running on port ${PORT}`)
 const app = express();
+
+// It serves static files 
+app.use(express.static('dist'))
 
 app.use(express.json());
 app.use(morgan(function (tokens, req, res) {
