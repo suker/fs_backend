@@ -15,29 +15,6 @@ app.use(express.static('dist'))
 app.use(express.json());
 app.use(morgan('tiny'))
 
-// let persons = [
-// 	{
-// 		id: '1',
-// 		name: 'Arto Hellas',
-// 		number: '040-123456',
-// 	},
-// 	{
-// 		id: '2',
-// 		name: 'Ada Lovelace',
-// 		number: '39-44-5323523',
-// 	},
-// 	{
-// 		id: '3',
-// 		name: 'Dan Abramov',
-// 		number: '12-43-234345',
-// 	},
-// 	{
-// 		id: '4',
-// 		name: 'Mary Poppendieck',
-// 		number: '39-23-6423122',
-// 	},
-// ];
-
 app.get('/', (request, response) => {
 	return response.send('Hello world!');
 });
@@ -73,21 +50,22 @@ app.post('/api/persons', (request, response) => {
 		return response.status(400).json({ error: 'content missing' });
 	}
 
-	const repeatedPerson = persons.find(
-		(person) => person.name.toLowerCase() === body.name.toLowerCase()
-	);
+	// const repeatedPerson = persons.find(
+	// 	(person) => person.name.toLowerCase() === body.name.toLowerCase()
+	// );
 
-	if (repeatedPerson)
-		return response.status(400).json({ error: 'name must be unique' });
+	// if (repeatedPerson)
+	// 	return response.status(400).json({ error: 'name must be unique' });
 
-	const person = {
-		id: generateId(),
-		name: body.name,
+	const contact = new Contact({
+		// id: generateId(),
+		name: body.name.trim(),
 		number: body.number,
-	};
+	});
 
-	persons = persons.concat(person);
-	response.json(person);
+	contact.save().then(savedContact => {
+		response.json(savedContact);
+	})
 });
 
 app.delete('/api/persons/:id', (request, response) => {
