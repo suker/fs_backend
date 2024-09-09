@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/persons/66d5b62499a87efd71dd945e
+Content-Type: application/json
+
+{
+    "name": "Pepito Grillo Reborn",
+    "number": "64372814"
+}
