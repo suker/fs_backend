@@ -1,26 +1,32 @@
 {
-  "name": "fs_backend",
-  "version": "1.0.0",
-  "description": "Fullstackopen backend project with express",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon --inspect=7000 index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf dist && cd ../fullstackopen/part2/phonebook/ && npm run build && cp -r dist ../../../fs_backend/",
+	"name": "fs_backend",
+	"version": "1.0.0",
+	"description": "Fullstackopen backend project with express",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon --inspect=7000 index.js",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build:ui": "rm -rf dist && cd ../fullstackopen/part2/phonebook/ && npm run build && cp -r dist ../../../fs_backend/",
 		"deploy": "fly deploy",
-		"deploy:full": "npm run build:ui && npm run deploy"
-  },
-  "author": "xsuker",
-  "license": "MIT",
-  "devDependencies": {
-    "@flydotio/dockerfile": "^0.5.8",
-    "nodemon": "^3.1.4"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "mongoose": "^8.6.0",
-    "morgan": "^1.10.0"
-  }
+		"deploy:full": "npm run build:ui && npm run deploy",
+		"lint": "eslint .",
+		"fixLint": "eslint . --fix"
+	},
+	"author": "xsuker",
+	"license": "MIT",
+	"devDependencies": {
+		"@eslint/js": "^9.10.0",
+		"@flydotio/dockerfile": "^0.5.8",
+		"@stylistic/eslint-plugin-js": "^2.8.0",
+		"eslint": "^9.10.0",
+		"globals": "^15.9.0",
+		"nodemon": "^3.1.4"
+	},
+	"dependencies": {
+		"dotenv": "^16.4.5",
+		"express": "^4.19.2",
+		"mongoose": "^8.6.0",
+		"morgan": "^1.10.0"
+	}
 }
