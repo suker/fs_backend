@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
@@ -14,8 +13,21 @@ mongoose
 	});
 
 const contactSchema = new mongoose.Schema({
-	name: String,
-	number: Number,
+	name: {
+		type: String,
+		minLength: 3,
+		required: true,
+	},
+	number: {
+		type: String,
+		required: [true, 'Phone number is required!'],
+		validate: {
+			validator: function (value) {
+				return /^\d{2,3}-\d{7,8}$/.test(value);
+			},
+			message: (props) => `${props.value} is not a valid phone number!`,
+		},
+	},
 });
 
 contactSchema.set('toJSON', {

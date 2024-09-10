@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon --inspect=7000 index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf dist && cd ../fullstackopen/part2/phonebook/ && npm run build && cp -r dist ../../../fs_backend/",
+		"deploy": "fly deploy",
+		"deploy:full": "npm run build:ui && npm run deploy"
   },
   "author": "xsuker",
   "license": "MIT",
